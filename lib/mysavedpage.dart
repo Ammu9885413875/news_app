@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
 class MySavedPage extends StatelessWidget{
   const MySavedPage({super.key});
   @override

@@ -21,9 +21,11 @@ class MyHomePageState extends State<MyHomePage>{
   Future<List<LoadJson>> readJson() async {
     final jsondata=await rootBundle.rootBundle.loadString('assets/jsonfiles/newsapp.json');
     Map<String, dynamic> jsonData = jsonDecode(jsondata);
+    count=jsonData['totalResults'];
     List<dynamic> articles = jsonData['articles'];
     return articles.map((e)=>LoadJson.fromJson(e)).toList();
   }
+  var count=1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +71,7 @@ class MyHomePageState extends State<MyHomePage>{
                   }
                 else if(data.hasData){
                   var items=data.data as List<LoadJson>;
+                  print(count);
                   return Expanded(
                     child: ListView.builder(
                       itemBuilder: (context, index) {
@@ -80,17 +83,6 @@ class MyHomePageState extends State<MyHomePage>{
                           height: 373,
                           borderRadius: 40,
                           spread: 25,
-                          // decoration: BoxDecoration(
-                          //   color:Theme.of(context).colorScheme.inversePrimary,
-                          //   borderRadius: BorderRadius.circular(10),
-                          //   boxShadow: [
-                          //     BoxShadow(
-                          //       color: Color.fromRGBO(130, 194, 227, 1.0),
-                          //       blurRadius: 7,
-                          //       spreadRadius: 7,
-                          //     )
-                          //   ]
-                          // ),
                           child: Column(
                             children: [
                               Padding(
@@ -127,7 +119,7 @@ class MyHomePageState extends State<MyHomePage>{
                           ),
                         ),
                       );},
-                      itemCount: 2,
+                      itemCount: count,
                     ),
                   );
                 }
