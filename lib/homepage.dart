@@ -25,7 +25,7 @@ class MyHomePageState extends State<MyHomePage>{
     List<dynamic> articles = jsonData['articles'];
     return articles.map((e)=>LoadJson.fromJson(e)).toList();
   }
-  var count=1;
+  var count=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
