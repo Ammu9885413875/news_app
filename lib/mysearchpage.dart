@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-class MySearchPage extends StatelessWidget{
+class MySearchPage extends StatefulWidget{
   const MySearchPage({super.key});
+
+  @override
+  State<MySearchPage> createState() => _MySearchPageState();
+}
+
+class _MySearchPageState extends State<MySearchPage> {
+  var searchText=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,6 +18,7 @@ class MySearchPage extends StatelessWidget{
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: TextField(
+          controller: searchText,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
@@ -22,10 +30,10 @@ class MySearchPage extends StatelessWidget{
             ),
             prefixIcon:const Icon(Icons.search),
             hintText: 'Search Here ..........',
+            suffixIcon: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_rounded)),
           ),
         ),
       ),
     );
   }
-
 }

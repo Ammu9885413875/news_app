@@ -1,11 +1,10 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:newsapp/jsonload.dart';
 import 'package:newsapp/news_details.dart';
-
+import 'package:http/http.dart' as http;
 import 'profilepage.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:flutter/services.dart' as rootBundle;
 import 'package:timeago/timeago.dart';
 class MyHomePage extends StatefulWidget{
   const MyHomePage({super.key});
@@ -18,14 +17,18 @@ class MyHomePage extends StatefulWidget{
 class MyHomePageState extends State<MyHomePage>{
   DateTime publishedDateTime=DateTime.now();
   String formattedDifference='0';
-  Future<List<LoadJson>> readJson() async {
-    final jsondata=await rootBundle.rootBundle.loadString('assets/jsonfiles/newsapp.json');
+  Future<List<LoadJson>> readJson(int page) async {
+    final url='https://newsapi.org/v2/top-headlines/?country=us&page=$page&apiKey=f5f4d7290a324a23b6808a949d38aadd';
+    final uri=Uri.parse(url);
+    final response=await http.get(uri);
+    final jsondata=response.body;
     Map<String, dynamic> jsonData = jsonDecode(jsondata);
     count=jsonData['totalResults'];
     List<dynamic> articles = jsonData['articles'];
     return articles.map((e)=>LoadJson.fromJson(e)).toList();
   }
   var count=0;
+  int currentPage=1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +66,7 @@ class MyHomePageState extends State<MyHomePage>{
               ],
             ),
           ),
-          FutureBuilder(future: readJson(),
+          FutureBuilder(future: readJson(currentPage),
               builder:(context, data) {
                 if(data.hasError)
                   {
@@ -80,7 +83,6 @@ class MyHomePageState extends State<MyHomePage>{
                       return Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: ClayContainer(
-                          height: 373,
                           borderRadius: 40,
                           spread: 25,
                           child: Column(
@@ -119,17 +121,51 @@ class MyHomePageState extends State<MyHomePage>{
                           ),
                         ),
                       );},
-                      itemCount: count,
+                      itemCount: count%20,
                     ),
+
                   );
                 }
                 else{
                   return Center(child: CircularProgressIndicator(),);
                 }
-              },)
+              },),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(onPressed: (){
+                  if(currentPage>1)
+                    {
+                      setState(() {
+                        currentPage--;
+                      });
+                    }
+                  else{
+                    showSnackBar('Already in first page',Colors.redAccent);
+                  }
+                }, icon: Icon(Icons.arrow_circle_left,)),
+                IconButton(onPressed: (){
+                  bool hasNextPage=count>currentPage*20;
+                  if(hasNextPage) {
+                    setState(() {
+                      currentPage++;
+                    });
+                  }
+                  else{
+                    String msg='Reached end of the page';
+                    showSnackBar(msg,Colors.redAccent);
+                  }
+                }, icon: Icon(Icons.arrow_circle_right))
+              ],
+            )
         ],
       ),
     );
+  }
+  showSnackBar(String msg,Color color)
+  {
+    SnackBar mySnack=SnackBar(content: Text(msg),duration: Duration(seconds: 1),backgroundColor: color,);
+    ScaffoldMessenger.of(context).showSnackBar(mySnack);
   }
 
 }
