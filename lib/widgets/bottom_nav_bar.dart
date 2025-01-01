@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp/mysavedpage.dart';
-import 'package:newsapp/mysearchpage.dart';
-import 'package:newsapp/homepage.dart';
+import 'package:newsapp/pages/mysavedpage.dart';
+import 'package:newsapp/pages/mysearchpage.dart';
+import 'package:newsapp/pages/homepage.dart';
 class NavigationBars extends StatefulWidget {
   const NavigationBars({super.key});
   @override
@@ -13,7 +13,6 @@ class _NavigationBarState extends State<NavigationBars> {
   onItemTapped(index){
     selectedIndex=index;
     setState(() {
-
     });
   }
   final pages=const[

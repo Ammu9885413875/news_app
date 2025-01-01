@@ -1,5 +1,5 @@
 import 'package:clay_containers/clay_containers.dart';
-import 'package:newsapp/category_page.dart';
+import 'package:newsapp/pages/category_page.dart';
 import 'profilepage.dart';
 import 'package:flutter/material.dart';
 class MyHomePage extends StatefulWidget{

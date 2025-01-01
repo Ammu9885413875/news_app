@@ -1,8 +1,7 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapp/loginpage.dart';
+import 'package:newsapp/pages/loginpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 class MyProfilePage extends StatefulWidget{
   const MyProfilePage({super.key});
 

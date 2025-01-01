@@ -1,10 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:newsapp/pages/homepage.dart';
+import 'package:newsapp/pages/loginpage.dart';
 import 'package:newsapp/widgets/bottom_nav_bar.dart';
-void main() {
+import 'package:shared_preferences/shared_preferences.dart';
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
 
   // This widget is the root of your application.
   @override
@@ -30,7 +37,30 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Color.fromRGBO(187, 223, 236, 1.0)),
         useMaterial3: true,
       ),
-      home: const NavigationBars(),
+      home: FutureBuilder<Widget>(
+        future: navigateToPage(), // Use FutureBuilder to get the initial page
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // While waiting for the future to complete, show a loading indicator
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            // Handle any errors that occur during the future
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            // Once the future completes, return the appropriate page
+            return snapshot.data!;
+          }
+        },
+      ),
     );
+  }
+
+  Future<Widget> navigateToPage() async{
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    bool isLoggedIn=prefs.getBool('isLoggedIn')??false;
+    if(isLoggedIn){
+      return MyHomePage();
+    }
+    return MyLoginPage(title: 'Create profile',);
   }
 }
