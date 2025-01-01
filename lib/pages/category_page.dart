@@ -9,8 +9,9 @@ import '../jsonload.dart';
 import 'new_details_page.dart';
 
 class MyCategoryPage extends StatefulWidget {
-  final String category;
-  const MyCategoryPage({super.key, required this.category});
+  final String? category;
+  final String? searchText;
+  const MyCategoryPage({super.key, this.category, this.searchText});
 
   @override
   State<MyCategoryPage> createState() => _MyCategoryPageState();
@@ -20,8 +21,17 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
   DateTime publishedDateTime = DateTime.now();
   String formattedDifference = '0';
   Future<List<LoadJson>> readJson(int page) async {
-    final url =
-        'https://newsapi.org/v2/top-headlines/?country=us&page=$page&category=${widget.category}&apiKey=${RetrieveApiKey.apiKey}';
+    final String url;
+    if (widget.category != null && widget.searchText != null) {
+      url =
+          'https://newsapi.org/v2/top-headlines/?country=us&page=$page&q=${widget.searchText}&category=${widget.category}&apiKey=${RetrieveApiKey.apiKey}';
+    } else if (widget.category != null) {
+      url =
+          'https://newsapi.org/v2/top-headlines/?country=us&page=$page&category=${widget.category}&apiKey=${RetrieveApiKey.apiKey}';
+    } else {
+      url =
+          'https://newsapi.org/v2/top-headlines/?country=us&page=$page&q=${widget.searchText}&apiKey=${RetrieveApiKey.apiKey}';
+    }
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final jsondata = response.body;
@@ -40,6 +50,10 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
         FutureBuilder(
           future: readJson(currentPage),
           builder: (context, data) {
+            if(count==0)
+            {
+              return Center(child: Text('Nothing to display'),);
+            }
             if (data.hasError) {
               return Text('Couldn\'t proceed');
             } else if (data.hasData) {
@@ -56,10 +70,19 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
                       isNull = true;
                       urlToImage = 'assets/images/filler.png';
                     }
-                    String title = items[index].title ?? 'not specified';
-                    String author = items[index].author ?? 'not specified';
+                    String title = items[index].title ?? 'Title unavailable';
+                    if (title.isEmpty) {
+                      title = 'Title unavailable';
+                    }
+                    String author = items[index].author ?? 'Author unavailable';
+                    if (author.isEmpty) {
+                      author = 'Author unavailable';
+                    }
                     String description =
-                        items[index].description ?? 'not specified';
+                        items[index].description ?? 'Description unavailable';
+                    if (description.isEmpty) {
+                      description = 'Description unavailable';
+                    }
                     return Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: InkWell(

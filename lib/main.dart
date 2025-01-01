@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
     SharedPreferences prefs=await SharedPreferences.getInstance();
     bool isLoggedIn=prefs.getBool('isLoggedIn')??false;
     if(isLoggedIn){
-      return MyHomePage();
+      return NavigationBars();
     }
     return MyLoginPage(title: 'Create profile',);
   }
