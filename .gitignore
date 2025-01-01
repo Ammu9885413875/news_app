@@ -45,3 +45,4 @@ pubspec.lock
 api_key.dart
 firebase_options.dart
 lib/pages/otp_page.dart
+firebase.json
