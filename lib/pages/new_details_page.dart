@@ -1,5 +1,6 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class NewsDetails extends StatelessWidget {
   final String title;
@@ -7,6 +8,7 @@ class NewsDetails extends StatelessWidget {
   final String author;
   final String formattedDateTime;
   final String urlToImage;
+  final bool isNull;
 
   const NewsDetails({
     super.key,
@@ -15,6 +17,7 @@ class NewsDetails extends StatelessWidget {
     required this.author,
     required this.formattedDateTime,
     required this.urlToImage,
+    required this.isNull,
   });
 
   @override
@@ -50,7 +53,7 @@ class NewsDetails extends StatelessWidget {
                   padding: const EdgeInsets.only(top:22.0,right: 8.0,left: 8.0,bottom: 8.0,),
                   child: ClipRRect(
                       borderRadius:BorderRadius.circular(40),
-                      child: Image(image: NetworkImage(urlToImage),)),
+                      child: !isNull?Image(image: NetworkImage(urlToImage),):Image(image: AssetImage(urlToImage))),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -58,12 +61,15 @@ class NewsDetails extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(author,style: TextStyle(fontSize: 18),),
-                      Text(formattedDateTime,style: TextStyle(fontSize: 18)),
-                    ],
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: double.infinity),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(child: Text(overflow: TextOverflow.ellipsis,author,style: TextStyle(fontSize: 18),)),
+                        Flexible(child: Text(formattedDateTime,style: TextStyle(fontSize: 18))),
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
