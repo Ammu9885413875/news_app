@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/pages/homepage.dart';
 import 'package:newsapp/pages/loginpage.dart';
+import 'package:newsapp/pages/my_login_page_trail.dart';
 import 'package:newsapp/widgets/bottom_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 void main() async{
@@ -38,21 +39,22 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Color.fromRGBO(187, 223, 236, 1.0)),
         useMaterial3: true,
       ),
-      home: FutureBuilder<Widget>(
-        future: navigateToPage(), // Use FutureBuilder to get the initial page
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // While waiting for the future to complete, show a loading indicator
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            // Handle any errors that occur during the future
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            // Once the future completes, return the appropriate page
-            return snapshot.data!;
-          }
-        },
-      ),
+      // home: FutureBuilder<Widget>(
+      //   future: navigateToPage(), // Use FutureBuilder to get the initial page
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       // While waiting for the future to complete, show a loading indicator
+      //       return Center(child: CircularProgressIndicator());
+      //     } else if (snapshot.hasError) {
+      //       // Handle any errors that occur during the future
+      //       return Center(child: Text('Error: ${snapshot.error}'));
+      //     } else {
+      //       // Once the future completes, return the appropriate page
+      //       return snapshot.data!;
+      //     }
+      //   },
+      // ),
+      home: MyLoginTrial(),
     );
   }
 

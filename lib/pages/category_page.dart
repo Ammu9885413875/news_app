@@ -24,13 +24,13 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
     final String url;
     if (widget.category != null && widget.searchText != null) {
       url =
-          'https://newsapi.org/v2/top-headlines/?country=us&page=$page&q=${widget.searchText}&category=${widget.category}&apiKey=${RetrieveApiKey.apiKey}';
+          'https://newsapi.org/v2/top-headlines?page=$page&category=${widget.category}&q=${Uri.encodeComponent(widget.searchText!)}&apiKey=${RetrieveApiKey.apiKey}';
     } else if (widget.category != null) {
       url =
-          'https://newsapi.org/v2/top-headlines/?country=us&page=$page&category=${widget.category}&apiKey=${RetrieveApiKey.apiKey}';
+          'https://newsapi.org/v2/top-headlines/?page=$page&category=${widget.category}&apiKey=${RetrieveApiKey.apiKey}';
     } else {
       url =
-          'https://newsapi.org/v2/top-headlines/?country=us&page=$page&q=${widget.searchText}&apiKey=${RetrieveApiKey.apiKey}';
+          'https://newsapi.org/v2/everything?page=$page&q=${Uri.encodeComponent(widget.searchText!)}&apiKey=${RetrieveApiKey.apiKey}';
     }
     final uri = Uri.parse(url);
     final response = await http.get(uri);
@@ -50,14 +50,13 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
         FutureBuilder(
           future: readJson(currentPage),
           builder: (context, data) {
-            if(count==0)
-            {
-              return Center(child: Text('Nothing to display'),);
-            }
             if (data.hasError) {
               return Text('Couldn\'t proceed');
             } else if (data.hasData) {
               var items = data.data as List<LoadJson>;
+              if (items.isEmpty) {
+                return Center(child: Text('No articles found.'));
+              }
               return Expanded(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
@@ -134,17 +133,22 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, bottom: 8.0),
-                                    child: Text(
-                                      author.toString(),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10.0, bottom: 8.0),
+                                      child: Text(
+                                        author.toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 10.0, bottom: 8.0),
-                                    child: Text(formattedDifference.toString()),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 10.0, bottom: 8.0),
+                                      child: Text(formattedDifference.toString(),overflow: TextOverflow.ellipsis,),
+                                    ),
                                   ),
                                 ],
                               )
@@ -154,7 +158,7 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
                       ),
                     );
                   },
-                  itemCount: count % 20,
+                  itemCount: items.length,
                 ),
               );
             } else {

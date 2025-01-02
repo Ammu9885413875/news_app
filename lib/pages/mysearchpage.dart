@@ -38,9 +38,9 @@ class _MySearchPageState extends State<MySearchPage> {
                 prefixIcon:const Icon(Icons.search),
                 hintText: 'Search Here ..........',
                 suffixIcon: IconButton(onPressed: (){
-                  text=searchText.text.toString();
-                  setState(() {
 
+                  setState(() {
+                    text=searchText.text.toString();
                   });
                 }, icon: Icon(Icons.arrow_forward_rounded)),
               ),
@@ -52,34 +52,34 @@ class _MySearchPageState extends State<MySearchPage> {
               ElevatedButton(style:ElevatedButton.styleFrom(
                 backgroundColor: isSelected[0]?Colors.blue:Colors.grey,
               ),onPressed: (){
-                text=searchText.text.toString();
+
                 isSelected=[false,false,false];
                 isSelected[0]=true;
                 category='sports';
                 setState(() {
-
+                  text=searchText.text.toString();
                 });
               }, child: Text('Sports')),
               ElevatedButton(style:ElevatedButton.styleFrom(
                 backgroundColor: isSelected[1]?Colors.blue:Colors.grey,
               ),onPressed: (){
-                text=searchText.text.toString();
+
                 isSelected=[false,false,false];
                 isSelected[1]=true;
                 category='politics';
                 setState(() {
-
+                  text=searchText.text.toString();
                 });
               }, child: Text('Politics')),
               ElevatedButton(style:ElevatedButton.styleFrom(
                 backgroundColor: isSelected[2]?Colors.blue:Colors.grey,
               ),onPressed: (){
-                text=searchText.text.toString();
+
                 isSelected=[false,false,false];
                 isSelected[2]=true;
                 category='technology';
                 setState(() {
-
+                  text=searchText.text.toString();
                 });
               }, child: Text('Technology')),
             ],
@@ -111,7 +111,7 @@ class _MySearchPageState extends State<MySearchPage> {
   Future<Widget> showContent() async {
     if(text==null)
     {
-        return Center(child: Text('Noting to display'));
+        return Center(child: CircularProgressIndicator());
     }
     else if(text!.isEmpty)
     {
@@ -120,6 +120,6 @@ class _MySearchPageState extends State<MySearchPage> {
     else if(category==null) {
       return MyCategoryPage(searchText: text,);
     }
-    return MyCategoryPage(searchText: text,category: category,);
+    return MyCategoryPage(category: category,searchText: text);
   }
 }
