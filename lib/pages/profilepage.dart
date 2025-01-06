@@ -1,6 +1,7 @@
 import 'package:clay_containers/clay_containers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapp/pages/loginpage.dart';
+import 'package:newsapp/pages/profile_creation_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class MyProfilePage extends StatefulWidget{
   const MyProfilePage({super.key});
@@ -10,10 +11,9 @@ class MyProfilePage extends StatefulWidget{
 }
 
 class _MyProfilePageState extends State<MyProfilePage> {
-  String userName='not specified';
   String bio='nothing to show';
   String phoneNo='nothing to show';
-  String email='nothing to show';
+  var user=FirebaseAuth.instance.currentUser;
   @override
   void initState() {
     // TODO: implement initState
@@ -30,7 +30,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyLoginPage(title:'Edit profile')));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title:'Edit profile')));
             }, icon: Icon(Icons.edit,size: 25,)),
           ),
           Padding(
@@ -63,7 +63,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Username : $userName',
+                    'Username : ${user?.displayName??user?.email}',
                     style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),
                   ),
                 ),
@@ -82,7 +82,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child:  Text(
-                    'email : $email',
+                    'email : ${user?.email??'No email'}',
                     style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),
                   ),
                 ),
@@ -103,18 +103,22 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
   void fetchData() async{
     var prefs=await SharedPreferences.getInstance();
-    userName=prefs.getString('userName')??userName;
     bio=prefs.getString('bio')??bio;
     phoneNo=prefs.getString('phoneNo')??phoneNo;
-    email=prefs.getString('email')??email;
     setState(() {
 
     });
   }
 
   void logOut() async{
-    SharedPreferences prefs=await SharedPreferences.getInstance();
-    prefs.setBool('isLoggedIn', false);
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MyLoginPage(title: 'Create profile')),(route) => false,);
+    await FirebaseAuth.instance.signOut();
+    popPage();
+    // SharedPreferences prefs=await SharedPreferences.getInstance();
+    // prefs.setBool('isLoggedIn', false);
+    // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MyLoginPage(title: 'Create profile')),(route) => false,);
+  }
+
+  void popPage() {
+    Navigator.pop(context);
   }
 }

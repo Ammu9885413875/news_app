@@ -47,6 +47,4 @@ firebase_options.dart
 lib/pages/otp_page.dart
 firebase.json
 lib/pages/home_trail.dart
-lib/pages/my_login_page_trail.dart
-lib/pages/my_signin.dart
 lib/load_user.dart

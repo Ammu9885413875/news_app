@@ -3,9 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/pages/home_trail.dart';
 import 'package:newsapp/pages/homepage.dart';
-import 'package:newsapp/pages/loginpage.dart';
-import 'package:newsapp/pages/my_login_page_trail.dart';
-import 'package:newsapp/pages/my_signin.dart';
+import 'package:newsapp/pages/profile_creation_page.dart';
+import 'package:newsapp/pages/my_login_page.dart';
+import 'package:newsapp/pages/my_signin_page.dart';
 import 'package:newsapp/widgets/bottom_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 void main() async{
@@ -26,34 +26,34 @@ class MyApp extends StatelessWidget {
             130, 194, 227, 1.0)),
         useMaterial3: true,
       ),
-      home: FutureBuilder<Widget>(
-        future: navigateToPage(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            return snapshot.data!;
-          }
-        },
-      ),
-      // home: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context, snapshot) {
-      //   if(snapshot.hasData){
-      //     return MyHomeTrial();
-      //   }
-      //   else{
-      //     return MyLoginTrial();
-      //   }
-      // },),
+      // home: FutureBuilder<Widget>(
+      //   future: navigateToPage(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return Center(child: CircularProgressIndicator());
+      //     } else if (snapshot.hasError) {
+      //       return Center(child: Text('Error: ${snapshot.error}'));
+      //     } else {
+      //       return snapshot.data!;
+      //     }
+      //   },
+      // ),
+      home: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context, snapshot) {
+        if(snapshot.hasData){
+          return NavigationBars();
+        }
+        else{
+          return MyLoginPage();
+        }
+      },),
     );
   }
-  Future<Widget> navigateToPage() async{
-    SharedPreferences prefs=await SharedPreferences.getInstance();
-    bool isLoggedIn=prefs.getBool('isLoggedIn')??false;
-    if(isLoggedIn){
-      return NavigationBars();
-    }
-    return MyLoginPage(title: 'Create profile',);
-  }
+  // Future<Widget> navigateToPage() async{
+  //   SharedPreferences prefs=await SharedPreferences.getInstance();
+  //   bool isLoggedIn=prefs.getBool('isLoggedIn')??false;
+  //   if(isLoggedIn){
+  //     return NavigationBars();
+  //   }
+  //   return MyLoginPage(title: 'Create profile',);
+  // }
 }

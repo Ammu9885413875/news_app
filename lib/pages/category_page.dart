@@ -4,6 +4,7 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:newsapp/api_key.dart';
+import 'package:newsapp/widgets/snackBar.dart';
 import 'package:timeago/timeago.dart';
 import '../jsonload.dart';
 import 'new_details_page.dart';
@@ -178,7 +179,8 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
                       currentPage--;
                     });
                   } else {
-                    showSnackBar('Already in first page', Colors.redAccent);
+                    var mySnack=SnackBarWidget();
+                    mySnack.showSnackBar('Already in first page', Colors.redAccent,context);
                   }
                 },
                 icon: Icon(
@@ -193,7 +195,8 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
                     });
                   } else {
                     String msg = 'Reached end of the page';
-                    showSnackBar(msg, Colors.redAccent);
+                    var mySnack=SnackBarWidget();
+                    mySnack.showSnackBar(msg, Colors.redAccent,context);
                   }
                 },
                 icon: Icon(Icons.arrow_circle_right))
@@ -203,12 +206,12 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
     );
   }
 
-  showSnackBar(String msg, Color color) {
-    SnackBar mySnack = SnackBar(
-      content: Text(msg),
-      duration: Duration(seconds: 1),
-      backgroundColor: color,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(mySnack);
-  }
+  // showSnackBar(String msg, Color color) {
+  //   SnackBar mySnack = SnackBar(
+  //     content: Text(msg),
+  //     duration: Duration(seconds: 1),
+  //     backgroundColor: color,
+  //   );
+  //   ScaffoldMessenger.of(context).showSnackBar(mySnack);
+  //}
 }
