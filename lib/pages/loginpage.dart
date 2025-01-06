@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newsapp/pages/homepage.dart';
+import 'package:newsapp/widgets/bottom_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class MyLoginPage extends StatefulWidget {
   final String title;
@@ -117,7 +118,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
           ),
           ElevatedButton(onPressed: (){
             storeAll();
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>NavigationBars()),(route)=>false);
           }, child: Text('Submit'))
         ],
       ),

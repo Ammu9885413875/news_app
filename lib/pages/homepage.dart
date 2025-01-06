@@ -14,7 +14,7 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 6,
         child: Scaffold(
             appBar: AppBar(
               title: const Text('News App',
@@ -37,37 +37,88 @@ class MyHomePageState extends State<MyHomePage> {
             ),
             body: Column(
               children: [
-                TabBar(tabs: [
-                  Tab(child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 1.5),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TabBar(tabAlignment: TabAlignment.start,isScrollable: true,tabs: [
+                    Tab(child: Container(
+                      width: 120,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1.5),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(child: Text('Sports')),
+                      ),),),
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Sports'),
-                    ),),),
-                  Tab(child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1.5),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Politics'),
-                      )),),
-                  Tab(child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1.5),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Technology'),
-                      )))
-                ]),
+                      child: Tab(child: Container(
+                          width: 120,
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1.5),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text('Politics')),
+                          )),),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Tab(child: Container(
+                              width: 120,
+                              decoration: BoxDecoration(
+                              border: Border.all(width: 1.5),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text('Technology')),
+                          ))),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Tab(child: Container(
+                          width: 120,
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1.5),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text('Science')),
+                          ))),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Tab(child: Container(
+                          width: 120,
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1.5),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text('Health')),
+                          ))),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Tab(child: Container(
+                          width: 120,
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1.5),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text('Entertainment')),
+                          ))),
+                    )
+                  ]),
+                ),
                 Expanded(
                   child: TabBarView(children: [
                     MyCategoryPage(category: 'sports',),
                     MyCategoryPage(category: 'politics',),
                     MyCategoryPage(category: 'technology',),
+                    MyCategoryPage(category: 'science',),
+                    MyCategoryPage(category: 'health',),
+                    MyCategoryPage(category: 'entertainment',)
                   ]),
                 ),
               ],

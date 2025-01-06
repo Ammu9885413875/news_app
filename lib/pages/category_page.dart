@@ -40,7 +40,6 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
     List<dynamic> articles = jsonData['articles'];
     return articles.map((e) => LoadJson.fromJson(e)).toList();
   }
-
   var count = 0;
   int currentPage = 1;
   @override
@@ -52,7 +51,8 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
           builder: (context, data) {
             if (data.hasError) {
               return Text('Couldn\'t proceed');
-            } else if (data.hasData) {
+            } else if (data.hasData)
+            {
               var items = data.data as List<LoadJson>;
               if (items.isEmpty) {
                 return Center(child: Text('No articles found.'));
@@ -167,7 +167,7 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
               );
             }
           },
-        ),
+        ), 
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -198,8 +198,8 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
                 },
                 icon: Icon(Icons.arrow_circle_right))
           ],
-        )
-      ],
+        ),
+      ]
     );
   }
 
