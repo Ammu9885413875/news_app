@@ -30,7 +30,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title:'Edit profile')));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title:'Edit profile',enabled: false,)));
             }, icon: Icon(Icons.edit,size: 25,)),
           ),
           Padding(

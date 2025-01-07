@@ -91,6 +91,8 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => NewsDetails(
+                                    isSaved: false,
+                                    publishedAt: publishedDateTime.toString(),
                                       title: title,
                                       description: description,
                                       author: author,
@@ -205,13 +207,4 @@ class _MyCategoryPageState extends State<MyCategoryPage> {
       ]
     );
   }
-
-  // showSnackBar(String msg, Color color) {
-  //   SnackBar mySnack = SnackBar(
-  //     content: Text(msg),
-  //     duration: Duration(seconds: 1),
-  //     backgroundColor: color,
-  //   );
-  //   ScaffoldMessenger.of(context).showSnackBar(mySnack);
-  //}
 }

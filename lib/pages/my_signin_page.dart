@@ -19,7 +19,12 @@ class _MySignInState extends State<MySignIn> {
         title: Text('SignIn to NewsApp',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 35)),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Glad to see you again 😊',style: TextStyle(color: Colors.blue,fontSize: 30),),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -80,8 +85,8 @@ class _MySignInState extends State<MySignIn> {
               await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: email.text.toString(),
                   password: password.text.toString());
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile')));
               popPage();
+              // Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile',enabled: true,)));
             }on FirebaseAuthException catch(e){
               if(e.code=='user-not-found'){
                 showSnack(msg: 'User not found', color: Colors.redAccent);

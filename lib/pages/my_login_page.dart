@@ -135,7 +135,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     );
                     var mySnack=SnackBarWidget();
                     mySnack.showSnackBar('Authentication successful', Colors.greenAccent, context);
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile')));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile',enabled: true,)));
                   }on FirebaseAuthException catch(e){
                   if(e.code=='weak-password'){
                     var mySnack=SnackBarWidget();
@@ -158,6 +158,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
               isLoading=true;
             });
             signInWithGoogle();
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile', enabled: false)));
             setState(() {
               isLoading=false;
             });
@@ -198,8 +199,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
       return await FirebaseAuth.instance.signInWithCredential(credential);
     }
     catch(e){
-      print(e);
+      SnackBarWidget mySnack=SnackBarWidget();
+      mySnack.showSnackBar('Something wrong...', Colors.redAccent, context);
     }
     return null;
+  }
+
+  navigateBack() {
+    Navigator.pop(context);
   }
 }

@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapp/widgets/bottom_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class MyProfileCreation extends StatefulWidget {
   final String title;
-  const MyProfileCreation({super.key,required this.title});
+  final bool enabled;
+  const MyProfileCreation({super.key,required this.title,required this.enabled});
 
   @override
   State<MyProfileCreation> createState() => _MyProfileCreationState();
@@ -15,6 +15,7 @@ class _MyProfileCreationState extends State<MyProfileCreation> {
   var bio=TextEditingController();
   var phoneNo=TextEditingController();
   var email=TextEditingController();
+  var user=FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     String title=widget.title;
@@ -24,30 +25,11 @@ class _MyProfileCreationState extends State<MyProfileCreation> {
         title: Text(title,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 35)),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          // TextField(
-          //   keyboardType: TextInputType.text,
-          //   controller: userName,
-          //   decoration: InputDecoration(
-          //     hintText: 'Username',
-          //     enabledBorder: OutlineInputBorder(
-          //       borderRadius: BorderRadius.circular(20),
-          //       borderSide: BorderSide(
-          //         width: 1,
-          //         color: Colors.black,
-          //       )
-          //     ),
-          //     focusedBorder: OutlineInputBorder(
-          //       borderSide: BorderSide(
-          //         color: Colors.blueAccent,
-          //         width: 3,
-          //       ),
-          //       borderRadius: BorderRadius.circular(20),
-          //     )
-          //
-          //   ),
-          // ),
+          Text('Welcome ${user!.email} 🤩',style: TextStyle(color: Colors.blue,fontSize: 25),),
+          Text('How are you????',style: TextStyle(color: Colors.blue,fontSize: 20),),
           TextField(
             keyboardType: TextInputType.multiline,
             minLines: 1,
@@ -94,31 +76,10 @@ class _MyProfileCreationState extends State<MyProfileCreation> {
 
             ),
           ),
-          // TextField(
-          //   keyboardType: TextInputType.emailAddress,
-          //   controller: email,
-          //   decoration: InputDecoration(
-          //     hintText: 'email',
-          //        enabledBorder: OutlineInputBorder(
-          //           borderRadius: BorderRadius.circular(20),
-          //           borderSide: BorderSide(
-          //             width: 1,
-          //             color: Colors.black,
-          //           )
-          //       ),
-          //       focusedBorder: OutlineInputBorder(
-          //         borderSide: BorderSide(
-          //           color: Colors.blueAccent,
-          //           width: 3,
-          //         ),
-          //         borderRadius: BorderRadius.circular(20),
-          //       )
-          //
-          //   ),
-          // ),
           ElevatedButton(onPressed: (){
             storeAll();
             Navigator.pop(context);
+
             //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>NavigationBars()),(route)=>false);
           }, child: Text('Submit'))
         ],
@@ -128,10 +89,8 @@ class _MyProfileCreationState extends State<MyProfileCreation> {
 
   void storeAll() async{
     SharedPreferences prefs=await SharedPreferences.getInstance();
-    // prefs.setString('userName', userName.text.toString());
+    prefs.setString('userName', userName.text.toString());
     prefs.setString('bio', bio.text.toString());
     prefs.setString('phoneNo', phoneNo.text.toString());
-    // prefs.setString('email', email.text.toString());
-    //prefs.setBool('isLoggedIn', true);
   }
 }
