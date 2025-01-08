@@ -1,7 +1,8 @@
 class LoadJson{
   String? author,title,description,url,urlToImage,content;
+  DateTime? timeStamp;
   String? publishedAt;
-  LoadJson({this.author,this.content,this.url,this.urlToImage,this.title,this.description,this.publishedAt});
+  LoadJson({this.timeStamp,this.author,this.content,this.url,this.urlToImage,this.title,this.description,this.publishedAt});
   LoadJson.fromJson(Map<String,dynamic> json){
     author=json['author'];
     title=json['title'];
@@ -13,6 +14,7 @@ class LoadJson{
   }
   Map<String, dynamic> toJson(){
     return {
+      'timeStamp':timeStamp,
       'author':author,
       'title':title,
       'description':description,

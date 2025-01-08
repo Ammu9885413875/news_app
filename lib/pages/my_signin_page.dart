@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapp/pages/profile_creation_page.dart';
 import 'package:newsapp/widgets/snackBar.dart';
 class MySignIn extends StatefulWidget {
   const MySignIn({super.key});

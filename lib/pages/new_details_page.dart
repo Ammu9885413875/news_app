@@ -2,9 +2,6 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/jsonload.dart';
-import 'package:newsapp/load_user.dart';
-import 'package:newsapp/pages/mysavedpage.dart';
-import 'package:newsapp/widgets/bottom_nav_bar.dart';
 import 'package:newsapp/widgets/snackBar.dart';
 
 class NewsDetails extends StatefulWidget {
@@ -103,6 +100,7 @@ class _NewsDetailsState extends State<NewsDetails> {
   saveArticle() async{
     try {
       LoadJson json = LoadJson(urlToImage: widget.urlToImage,
+          timeStamp:DateTime.now(),
           title: widget.title,
           author: widget.author,
           publishedAt: widget.publishedAt,

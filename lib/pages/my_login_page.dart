@@ -25,6 +25,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          Center(child: Text('Welcome to NewsApp...Lets dive through the world of news',style: TextStyle(color: Colors.blue,fontSize: 20),)),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -153,11 +154,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
               }, child: Center(child: Text('Submit'))),
             ),
           ),
-          isLoading?CircularProgressIndicator():InkWell(onTap: (){
+          isLoading?CircularProgressIndicator():InkWell(onTap: () async{
             setState(() {
               isLoading=true;
             });
-            signInWithGoogle();
+            await signInWithGoogle();
             Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile', enabled: false)));
             setState(() {
               isLoading=false;

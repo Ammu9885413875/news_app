@@ -11,8 +11,8 @@ class MyProfilePage extends StatefulWidget{
 }
 
 class _MyProfilePageState extends State<MyProfilePage> {
-  String bio='nothing to show';
-  String phoneNo='nothing to show';
+  String? bio;
+  String? phoneNo;
   var user=FirebaseAuth.instance.currentUser;
   @override
   void initState() {
@@ -74,7 +74,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                       maxWidth: double.infinity,
                     ),
                     child: Text(
-                      'Bio : $bio',
+                      'Bio : ${bio??'A brief bio please 😇'}',
                       style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),
                     ),
                   ),
@@ -89,7 +89,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Phone no : $phoneNo',
+                    'Phone no : ${phoneNo??'Phone number please... 📞'}',
                     style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),
                         ),
                 ),
