@@ -31,6 +31,27 @@ class _MyProfileCreationState extends State<MyProfileCreation> {
           Text('Welcome ${user!.email} 🤩',style: TextStyle(color: Colors.blue,fontSize: 25),),
           Text('How are you????',style: TextStyle(color: Colors.blue,fontSize: 20),),
           TextField(
+            enabled: widget.enabled,
+            decoration: InputDecoration(
+                hintText: 'User name',
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.black,
+                    )
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 3,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                )
+
+            ),
+          ),
+          TextField(
             keyboardType: TextInputType.multiline,
             minLines: 1,
             maxLines: 3,

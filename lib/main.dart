@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapp/pages/my_login_page.dart';
+import 'package:newsapp/pages/my_sign_up_page.dart';
 import 'package:newsapp/widgets/bottom_nav_bar.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

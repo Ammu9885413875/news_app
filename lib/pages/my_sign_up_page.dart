@@ -136,7 +136,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     );
                     var mySnack=SnackBarWidget();
                     mySnack.showSnackBar('Authentication successful', Colors.greenAccent, context);
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile',enabled: true,)));
+                    navigateToCreateProfile(enabled: true);
                   }on FirebaseAuthException catch(e){
                   if(e.code=='weak-password'){
                     var mySnack=SnackBarWidget();
@@ -158,8 +158,16 @@ class _MyLoginPageState extends State<MyLoginPage> {
             setState(() {
               isLoading=true;
             });
-            await signInWithGoogle();
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile', enabled: false)));
+            var userCredential=await signInWithGoogle();
+            if(userCredential!=null)
+            {
+              navigateToCreateProfile(enabled: false);
+              //Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile', enabled: false)));
+            }
+            else{
+              SnackBarWidget mySnack=SnackBarWidget();
+              mySnack.showSnackBar('Google SignIn failed', Colors.redAccent, context);
+            }
             setState(() {
               isLoading=false;
             });
@@ -195,7 +203,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
   Future<UserCredential?> signInWithGoogle() async{
     try{
       final user=await GoogleSignIn().signIn();
-      final auth=await user?.authentication;
+      if(user==null)
+      {
+        SnackBarWidget mySnack=SnackBarWidget();
+        mySnack.showSnackBar('Signin cancelled', Colors.redAccent, context);
+        return null;
+      }
+      final auth=await user.authentication;
       final credential=GoogleAuthProvider.credential(idToken: auth?.idToken,accessToken: auth?.accessToken);
       return await FirebaseAuth.instance.signInWithCredential(credential);
     }
@@ -208,5 +222,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
   navigateBack() {
     Navigator.pop(context);
+  }
+
+  void navigateToCreateProfile({required bool enabled}) {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile', enabled: enabled)));
   }
 }
