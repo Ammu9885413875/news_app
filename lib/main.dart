@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           return NavigationBars();
         }
         else{
-          return MyLoginPage();
+          return MySignUpPage();
         }
       },),
     );

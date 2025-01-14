@@ -4,12 +4,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:newsapp/pages/my_signin_page.dart';
 import 'package:newsapp/pages/profile_creation_page.dart';
 import 'package:newsapp/widgets/snackBar.dart';
-class MyLoginPage extends StatefulWidget {
-  const MyLoginPage({super.key});
+class MySignUpPage extends StatefulWidget {
+  const MySignUpPage({super.key});
   @override
-  State<MyLoginPage> createState() => _MyLoginPageState();
+  State<MySignUpPage> createState() => _MySignUpPageState();
 }
-class _MyLoginPageState extends State<MyLoginPage> {
+class _MySignUpPageState extends State<MySignUpPage> {
   bool isLoading=false;
   var email=TextEditingController();
   var password=TextEditingController();
@@ -210,7 +210,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
         return null;
       }
       final auth=await user.authentication;
-      final credential=GoogleAuthProvider.credential(idToken: auth?.idToken,accessToken: auth?.accessToken);
+      final credential=GoogleAuthProvider.credential(idToken: auth.idToken,accessToken: auth.accessToken);
       return await FirebaseAuth.instance.signInWithCredential(credential);
     }
     catch(e){

@@ -1,5 +1,6 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/jsonload.dart';
 import 'package:newsapp/widgets/snackBar.dart';
@@ -105,8 +106,9 @@ class _NewsDetailsState extends State<NewsDetails> {
           author: widget.author,
           publishedAt: widget.publishedAt,
           description: widget.description);
+      var user=FirebaseAuth.instance.currentUser;
       var dbInstance = FirebaseFirestore.instance;
-      await dbInstance.collection('newsArticle').add(json.toJson());
+      await dbInstance.collection('users').doc(user!.email).collection('newsArticle').add(json.toJson());
       SnackBarWidget mySnack=SnackBarWidget();
       mySnack.showSnackBar('Added the article', Colors.greenAccent, context);
     }
@@ -128,16 +130,10 @@ class _NewsDetailsState extends State<NewsDetails> {
       return Image.asset('assets/images/filler.png');
     }
   }
-
-  Future<bool> documentExists({required String docId}) async{
-    var docRef=FirebaseFirestore.instance.collection('newsArticle').doc(docId);
-    final docSnapshot=await docRef.get();
-    return docSnapshot.exists;
-  }
-
   void deleteArticle({required String docId}) async{
     try {
-      FirebaseFirestore.instance.collection('newsArticle').doc(docId).delete();
+      var user=FirebaseAuth.instance.currentUser;
+      FirebaseFirestore.instance.collection('users').doc(user!.email).collection('newsArticle').doc(docId).delete();
       SnackBarWidget().showSnackBar(
           'Removed from saved articles', Colors.greenAccent, context);
       Navigator.pop(context);
