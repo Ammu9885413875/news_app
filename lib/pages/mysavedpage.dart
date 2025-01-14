@@ -1,5 +1,6 @@
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/jsonload.dart';
 import 'package:newsapp/pages/new_details_page.dart';
@@ -13,18 +14,75 @@ class MySavedPage extends StatefulWidget {
 }
 
 class _MySavedPageState extends State<MySavedPage> {
-  DateTime filterDate = DateTime.now().subtract(Duration(days: 5));
+  static int filterDays=30;
+  late DateTime filterDate=DateTime.now().subtract(Duration(days: filterDays));
+  var user=FirebaseAuth.instance.currentUser;
+  updateFilterDate(){
+    filterDate = DateTime.now().subtract(Duration(days: filterDays));
+    return filterDate;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) {
+            return IconButton(onPressed: (){
+              Scaffold.of(context).openDrawer();
+            }, icon: Icon(Icons.filter_list_alt,size: 40,));
+          }
+        ),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Saved Items',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35)),
+        title: Center(
+          child: const Text('Saved Items',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35)),
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            Container(
+              height: 75,
+              color: Colors.blue,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('By default saved items from 30 days are displayed',style: TextStyle(color: Colors.white,fontSize: 22),),
+              ),
+            ),
+            TextButton(onPressed: (){
+              filterDays=7;
+              setState(() {
+                updateFilterDate();
+              });
+              Navigator.pop(context);
+            }, child: Text('7 days',style: TextStyle(color: Colors.blue,fontSize: 20),)),
+            TextButton(onPressed: (){
+              filterDays=14;
+              setState(() {
+                updateFilterDate();
+              });
+              Navigator.pop(context);
+            }, child: Text('14 days',style: TextStyle(color: Colors.blue,fontSize: 20))),
+            TextButton(onPressed: (){
+              filterDays=30;
+              setState(() {
+                updateFilterDate();
+              });
+              Navigator.pop(context);
+            }, child: Text('30 days',style: TextStyle(color: Colors.blue,fontSize: 20))),
+            TextButton(onPressed: (){
+              filterDays=60;
+              setState(() {
+                updateFilterDate();
+              });
+              Navigator.pop(context);
+            }, child: Text('60 days',style: TextStyle(color: Colors.blue,fontSize: 20))),
+          ],
+        )
       ),
       body: StreamBuilder(
           stream:
-              FirebaseFirestore.instance.collection('newsArticle').orderBy('publishedAt',descending: true).where('timeStamp',isGreaterThanOrEqualTo: filterDate).snapshots(),
+              FirebaseFirestore.instance.collection('users').doc(user!.email).collection('newsArticle').orderBy('timeStamp',descending: false).where('timeStamp',isGreaterThanOrEqualTo: filterDate).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text('Could not display'));
