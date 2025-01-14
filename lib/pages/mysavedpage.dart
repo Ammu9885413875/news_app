@@ -82,7 +82,7 @@ class _MySavedPageState extends State<MySavedPage> {
       ),
       body: StreamBuilder(
           stream:
-              FirebaseFirestore.instance.collection('users').doc(user!.email).collection('newsArticle').orderBy('timeStamp',descending: false).where('timeStamp',isGreaterThanOrEqualTo: filterDate).snapshots(),
+              FirebaseFirestore.instance.collection('users').doc(user!.email).collection('newsArticle').orderBy('timeStamp',descending: true).where('timeStamp',isGreaterThanOrEqualTo: filterDate).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text('Could not display'));
