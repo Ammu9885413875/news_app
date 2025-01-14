@@ -79,34 +79,33 @@ class _MySignInState extends State<MySignIn> {
               ),
             ),
           ),
-          ElevatedButton(onPressed: () async{
-            try {
-              await FirebaseAuth.instance.signInWithEmailAndPassword(
-                  email: email.text.toString(),
-                  password: password.text.toString());
-              popPage();
-              // Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileCreation(title: 'Create profile',enabled: true,)));
-            }on FirebaseAuthException catch(e){
-              if(e.code=='user-not-found'){
-                showSnack(msg: 'User not found', color: Colors.redAccent);
+          ElevatedButton(
+            onPressed: () async {
+              try {
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
+                  email: email.text.trim(),
+                  password: password.text.trim(),
+                );
+                popPage(); // Navigate away only if sign-in is successful
+              } on FirebaseAuthException catch (e) {
+                String message='Your email/ password is incorrect. Try again';
+                // Show SnackBar
+                var mySnack = SnackBarWidget();
+                mySnack.showSnackBar(message, Colors.redAccent, context);
+
+                // Optional: Delay before navigating away
+                await Future.delayed(Duration(seconds: 2));
+              } catch (e) {
+                var mySnack = SnackBarWidget();
+                mySnack.showSnackBar('Something went wrong', Colors.redAccent, context);
               }
-              else if(e.code=='wrong-password'){
-                showSnack(msg: 'Wrong password', color: Colors.redAccent);
-              }
-            }catch(e){
-              showSnack(msg: 'Something went wrong', color: Colors.redAccent);
-            }
-          },
-              child: Text('Verify')),
+            },
+            child: Text('Verify'),
+          ),
         ],
       ),
     );
   }
-  showSnack({required String msg,required Color color}){
-    var mySnack=SnackBarWidget();
-    mySnack.showSnackBar(msg, color, context);
-  }
-
   void popPage() {
     Navigator.pop(context);
   }
